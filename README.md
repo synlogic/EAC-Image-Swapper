@@ -4,7 +4,7 @@ A python script for randomly picking a screenshot or image to use as the EAC spl
 ## Download the latest ImageSwapper.zip from https://github.com/synlogic/EAC-Image-Swapper/releases
 
 # How To Use
-1) Download the latest [release](https://github.com/synlogic/EAC-Image-Swapper/releases)
+1) Download the latest [release](https://github.com/synlogic/EAC-Image-Swapper/releases) **DON'T use code->download zip, that is for the source code only.**
 2) Open steam, go to library and right click on VRChat.  Go to Manage->Browse Local Files
 3) Unzip ImageSwapper.zip and place files into the local files folder
 4) Open config.ini in a text editor and place the path of your photos directory. EX: photos = C:\Users\user\Pictures\VRChat
