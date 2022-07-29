@@ -1,5 +1,4 @@
 @echo off
-start imageswap.exe
+start imageswapper.exe
 echo Swapping EAC images...
-timeout 3
 %*
