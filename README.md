@@ -11,6 +11,10 @@ A python script for randomly picking a screenshot or image to use as the EAC spl
 5) In steam again right click VRChat and go to properties.  In the launch options box insert "run.bat %COMMAND%" **before** any launch options
 6) Run VRChat and enjoy seeing your screenshots, skebs, or whatever else on your EAC screen!
 
+# Video Tutorial
+[tutorial.webm](https://user-images.githubusercontent.com/26206994/181848346-98d74dbe-bb1b-4512-af3a-7c6c6d5d47cf.webm)
+
+
 # Extra info
 You can adjust the timeout in the run.bat, if it's too low it may not update the picture before vrchat launches.
 
