@@ -1,4 +1,4 @@
-# VRC EAC Image Swapper
+# EAC Image Swapper
 A small python script to randomly pick a screenshot or image to use as the EAC splashscreen.
 
 ## Download
