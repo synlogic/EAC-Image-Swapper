@@ -2,3 +2,7 @@ build.bat
 SplashScreen.png
 scaled.png
 config.ini
+__pycache__
+build
+dist
+.vscode
