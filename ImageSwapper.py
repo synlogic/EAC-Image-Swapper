@@ -1,6 +1,7 @@
 from random import choice
 from os import path, listdir
 from shutil import copyfile
+from sys import exit
 import cv2
 import configparser
 import traceback
@@ -38,12 +39,12 @@ def run():
             config.write(configfile)
         print('Add "run.bat %COMMAND%" without quotations to VRChat launch options then add your launch options after')
         input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
-        quit()
+        exit()
     else:
         config.read('config.ini')
         if config.get('PATH', 'photos')== "" or './EasyAntiCheat/SplashScreen.png' == "":
             input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
-            quit()
+            exit()
     
     photos_path = config.get('PATH', 'photos')
     current_photo = './EasyAntiCheat/SplashScreen.png'
@@ -59,7 +60,7 @@ def run():
             except Exception as e:
                 traceback.print_exc()
                 input("Something went wrong, press any key to exit..")
-                continue
+                exit()
         timeout += 1
         if timeout >= 5:
             break
@@ -76,4 +77,4 @@ if __name__ == '__main__':
     except Exception as e:
         traceback.print_exc()
         input("Something went wrong, press any key to exit..")
-        quit()
+        exit()
