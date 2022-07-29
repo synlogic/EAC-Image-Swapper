@@ -28,6 +28,7 @@ def resize(image, height=450, inter = cv2.INTER_AREA):
     dimensions = (int(w * r), height)
 
     resized = cv2.resize(image, dimensions, interpolation = inter)
+    resized = cv2.resize(image, (800,450), interpolation = inter)  # Enforce 800x450
     return resized
 
 def run():
