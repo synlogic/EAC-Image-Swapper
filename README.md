@@ -12,5 +12,5 @@ https://github.com/synlogic/EAC-Image-Swapper/releases
 5) Run VRChat and enjoy seeing your screenshots or skebs or whatever else on your EAC screen!
 
 # Extra info
-In the run.bat you can adjust the timeout as needed or remove it completely.
+You can adjust the timeout in the run.bat, if it's too low it may not update the picture before vrchat launches.
 The image it chooses can be an image within a folder in the root folder.  EX: VRCHAT/2022-07/image.png
