@@ -28,7 +28,7 @@ def resize(image, height=450, inter = cv2.INTER_AREA):
     dimensions = (int(w * r), height)
 
     resized = cv2.resize(image, dimensions, interpolation = inter)
-    resized = cv2.resize(image, (800,450), interpolation = inter)  # Enforce 800x450
+    resized = cv2.resize(image, (800,450), interpolation = cv2.INTER_NEAREST)  # Enforce 800x450
     return resized
 
 def run():
@@ -49,15 +49,21 @@ def run():
     photos_path = config.get('PATH', 'photos')
     current_photo = './EasyAntiCheat/SplashScreen.png'
     new_photo = ""
+    timeout = 0
     while not new_photo.endswith('.png') and not new_photo.endswith('.jpg'):
         new_photo = photos_path + "/" + choice(listdir(photos_path))
         if path.isdir(new_photo):
+            if len(listdir(new_photo)) == 0:
+                continue
             try:
                 new_photo = new_photo + '/' + choice(listdir(new_photo))
             except Exception as e:
-                traceback.print_exc(e.__str__)
+                traceback.print_exc()
                 input("Something went wrong, press any key to exit..")
                 continue
+        timeout += 1
+        if timeout >= 5:
+            break
 
     img = cv2.imread(new_photo, 1)
     scaled_img = resize(img)
@@ -69,6 +75,6 @@ if __name__ == '__main__':
     try:
         run()
     except Exception as e:
-        traceback.print_exc(e.__str__)
+        traceback.print_exc()
         input("Something went wrong, press any key to exit..")
         quit()
