@@ -63,7 +63,7 @@ def run():
                 exit()
         timeout += 1
         if timeout >= 5:
-            break
+            exit()
 
     img = cv2.imread(new_photo, 1)
     scaled_img = resize(img)
