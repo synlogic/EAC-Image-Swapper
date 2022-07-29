@@ -1,8 +1,7 @@
 # EAC Image Swapper
 A python script for randomly picking a screenshot or image to use as the EAC splashscreen.
 
-# Download the latest ImageSwapper.zip from
-https://github.com/synlogic/EAC-Image-Swapper/releases
+## Download the latest ImageSwapper.zip from https://github.com/synlogic/EAC-Image-Swapper/releases
 
 # How To Use
 1) Open steam, go to library and right click on VRChat.  Go to Manage->Browse Local Files
