@@ -13,4 +13,5 @@ https://github.com/synlogic/EAC-Image-Swapper/releases
 
 # Extra info
 You can adjust the timeout in the run.bat, if it's too low it may not update the picture before vrchat launches.
+
 The image it chooses can be an image within a folder in the root folder.  EX: VRCHAT/2022-07/image.png
