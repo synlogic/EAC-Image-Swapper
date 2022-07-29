@@ -12,7 +12,8 @@ A python script for randomly picking a screenshot or image to use as the EAC spl
 6) Run VRChat and enjoy seeing your screenshots, skebs, or whatever else on your EAC screen!
 
 # Video Tutorial
-[tutorial.webm](https://user-images.githubusercontent.com/26206994/181848346-98d74dbe-bb1b-4512-af3a-7c6c6d5d47cf.webm)
+[Cen Tutorial.webm](https://user-images.githubusercontent.com/26206994/181855077-508dc2e5-79fa-440a-ba3b-4660eff4a18a.webm)
+
 
 
 # Extra info
