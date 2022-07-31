@@ -97,7 +97,7 @@ def run():
         photos = photos + GetPhotosInDirectory(path_)
         files = sorted(glob(glob_pattern), key=path.getctime)
         for file in files:
-            if path.isdir(file):
+            if path.isdir(file) and not file in exclusions:
                 photos = photos + GetPhotosInDirectory(file)
     try:
         new_photo = choice(photos)
