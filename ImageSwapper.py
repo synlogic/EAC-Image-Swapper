@@ -6,6 +6,7 @@ from glob import glob
 import cv2
 import configparser
 import traceback
+from numpy import append
 import requests
 
 def CheckForUpdates():
@@ -84,6 +85,9 @@ def GenerateConfig():
 def GetPhotosInDirectory(dir):
     print(f'Finding files in {dir}')
     photos = []
+    if isfile(dir):
+        photos.append(file)
+        return
     for file in listdir(dir):
         if (file.lower().endswith('.png') or file.lower().endswith('.jpg')) and not file.lower().endswith('_vr.jpg'):
             path = dir + '\\' + file
