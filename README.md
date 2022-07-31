@@ -1,3 +1,4 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/W7W21OEBU)
 # EAC Image Swapper
 A python script for randomly picking a screenshot or image to use as the EAC splashscreen.
 
