@@ -15,10 +15,9 @@ def CheckForUpdates():
     
     try:
         response = requests.get("https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
-        if response.history:
-            if not response.url.endswith(current_version):
-                print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
-                input("Press any key to continue..")
+        if not response.url.endswith(current_version):
+            print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
+            input("Press any key to continue..")
     except Exception:
         traceback.print_exc()
         print('Checking for updates failed...')
@@ -46,7 +45,6 @@ def Resize(image, height=450, inter = cv2.INTER_AREA):
     dimensions = (int(w * r), height)
 
     resized = cv2.resize(image, dimensions, interpolation = inter)
-    resized = cv2.resize(image, (800,450), interpolation = inter)  # Enforce 800x450
     return resized
 
 def GenerateConfig():
@@ -72,6 +70,8 @@ def GenerateConfig():
             if config.has_option(option[0], option[1]):
                 config.set(option[0], option[1], config.get(option[0], option[1]))
             else:
+                if not config.has_section(option[0]):
+                    config.add_section(option[0])
                 config.set(option[0], option[1], option[2])
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
