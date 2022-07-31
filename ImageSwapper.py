@@ -10,7 +10,7 @@ from numpy import append
 import requests
 
 def CheckForUpdates():
-    current_version = "v2.0.0"
+    current_version = "v2.0.1"
     print(f"EAC Image Swapper version: {current_version}")
     print("Checking for updates | You can disable this in config.ini")
     
