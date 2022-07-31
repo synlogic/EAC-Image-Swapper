@@ -1,4 +1,4 @@
-from random import choice, seed
+from random import choice
 from os import path, listdir
 from shutil import copyfile
 from sys import exit
@@ -9,7 +9,7 @@ import traceback
 import requests
 
 def CheckForUpdates():
-    current_version = "v1.0.4"
+    current_version = "v2.0.0"
     print(f"EAC Image Swapper version: {current_version}")
     print("Checking for updates | You can disable this in config.ini")
     
