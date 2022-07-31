@@ -7,5 +7,5 @@ build
 dist
 .vscode
 *.spec
-~*
+*~*
 *-workspace

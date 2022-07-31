@@ -1,7 +1,8 @@
-from random import choice
+from random import choice, seed
 from os import path, listdir
 from shutil import copyfile
 from sys import exit
+from glob import glob
 import cv2
 import configparser
 import traceback
@@ -31,45 +32,72 @@ def resize(image, height=450, inter = cv2.INTER_AREA):
     resized = cv2.resize(image, (800,450), interpolation = inter)  # Enforce 800x450
     return resized
 
-def run():
+def GenerateConfig():
+    options = [('PATH', 'photos'), ('PATH', 'exclusions'), ('OPTIONS', 'pause_on_complete')]
     config = configparser.ConfigParser()
+    #Generate new config
     if not path.exists('config.ini'):
-        config['PATH'] = {'Photos': ''}
+        config['PATH'] = {'Photos': '', 'Exclusions': ''}
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
         print('Add "run.bat %COMMAND%" without quotations to VRChat launch options then add your launch options after')
         input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
         exit()
-    else:
-        config.read('config.ini')
-        if config.get('PATH', 'photos')== "" or './EasyAntiCheat/SplashScreen.png' == "":
-            input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
-            exit()
-    
-    photos_path = config.get('PATH', 'photos')
-    current_photo = './EasyAntiCheat/SplashScreen.png'
-    new_photo = ""
-    timeout = 0
-    while not new_photo.endswith('.png') and not new_photo.endswith('.jpg'):
-        new_photo = photos_path + "/" + choice(listdir(photos_path))
-        if path.isdir(new_photo):
-            if len(listdir(new_photo)) == 0:
-                continue
-            try:
-                new_photo = new_photo + '/' + choice(listdir(new_photo))
-            except Exception as e:
-                traceback.print_exc()
-                input("Something went wrong, press any key to exit..")
-                exit()
-        timeout += 1
-        if timeout >= 5:
-            exit()
 
+    # Generate missing options
+    elif path.exists('config.ini'):
+        config.read('config.ini')
+        for option in options:
+            if config.has_option(option[0], option[1]):
+                config[option[0]][option[1]] = config.get(option[0], option[1])
+            else:
+                try:
+                    config[option[0]][option[1]] = ""
+                except KeyError:
+                    config.add_section(option[0])
+                    config[option[0]][option[1]] = ""
+        with open('config.ini', 'w') as configfile:
+            config.write(configfile)
+
+    if config.get('PATH', 'photos') == "":
+        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
+        exit()
+    return config
+
+def GetPhotosInDirectory(dir):
+    print(f'Finding files in {dir}')
+    photos = []
+    for file in listdir(dir):
+        if (file.lower().endswith('.png') or file.lower().endswith('.jpg')) and not file.lower().endswith('_vr.jpg'):
+            path = dir + '\\' + file
+            print(f'     - {file}')
+            photos.append(path)
+    return photos
+
+def run():
+    config = GenerateConfig()
+    exclusions = config.get('PATH', 'exclusions').split('+')
+    paths = config.get('PATH', 'photos').split('+')
+    photos = []
+    for path_ in paths:
+        glob_pattern = path.join(path_, '*')
+        photos = photos + GetPhotosInDirectory(path_)
+        files = sorted(glob(glob_pattern), key=path.getctime)
+        for file in files:
+            if path.isdir(file):
+                photos = photos + GetPhotosInDirectory(file)
+    try:
+        new_photo = choice(photos)
+    except IndexError:
+        print('No photos to be found! Empty photos directory maybe?')
+        input("Press any key to exit.")
+        exit()
     img = cv2.imread(new_photo, 1)
     scaled_img = resize(img)
     cv2.imwrite('scaled.png', scaled_img)
-
     copyfile('scaled.png', './EasyAntiCheat/SplashScreen.png')
+    if config.get('OPTIONS', 'pause_on_complete').lower() == 'true':
+        input("Pause on Complete enabled in config.ini, press any key to exit")
 
 if __name__ == '__main__':
     try:
