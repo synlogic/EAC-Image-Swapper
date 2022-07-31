@@ -85,14 +85,14 @@ def GenerateConfig():
 def GetPhotosInDirectory(dir):
     print(f'Finding files in {dir}')
     photos = []
-    if path.isfile(dir) and ((file.lower().endswith('.png') or file.lower().endswith('.jpg')) and not file.lower().endswith('_vr.jpg')):
-        photos.append(file)
+    if path.isdir(dir) and ((dir.lower().endswith('.png') or dir.lower().endswith('.jpg')) and not dir.lower().endswith('_vr.jpg')):
+        photos.append(dir)
         return
     for file in listdir(dir):
         if (file.lower().endswith('.png') or file.lower().endswith('.jpg')) and not file.lower().endswith('_vr.jpg'):
-            path = dir + '\\' + file
+            path_ = dir + '\\' + file
             print(f'     - {file}')
-            photos.append(path)
+            photos.append(path_)
     return photos
 
 def run():
