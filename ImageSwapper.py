@@ -6,8 +6,20 @@ from glob import glob
 import cv2
 import configparser
 import traceback
+import requests
 
-def resize(image, height=450, inter = cv2.INTER_AREA):
+def CheckForUpdates():
+    print("Checking for updates")
+    current_version = "v1.0.3"
+    try:
+        response = requests.get("https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
+        if response.history:
+            if not response.url.endswith(current_version):
+                print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
+    except:
+        return
+
+def Resize(image, height=450, inter = cv2.INTER_AREA):
     # Resizes while maintaining aspect ratio.
     border_v = 0
     border_h = 0
@@ -33,11 +45,15 @@ def resize(image, height=450, inter = cv2.INTER_AREA):
     return resized
 
 def GenerateConfig():
-    options = [('PATH', 'photos'), ('PATH', 'exclusions'), ('OPTIONS', 'pause_on_complete')]
+    sections = ('PATH', 'OPTIONS')
+    options = [['PATH', 'photos', ''], ['PATH', 'exclusions', ''], ['OPTIONS', 'pause_on_complete', 'false'], ['OPTIONS', 'check_for_updates', 'true']]
     config = configparser.ConfigParser()
     #Generate new config
     if not path.exists('config.ini'):
-        config['PATH'] = {'Photos': '', 'Exclusions': ''}
+        for section in sections:
+            config.add_section(section)
+        for option in options:
+            config.set(option[0], option[1], option[2])
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
         print('Add "run.bat %COMMAND%" without quotations to VRChat launch options then add your launch options after')
@@ -49,13 +65,9 @@ def GenerateConfig():
         config.read('config.ini')
         for option in options:
             if config.has_option(option[0], option[1]):
-                config[option[0]][option[1]] = config.get(option[0], option[1])
+                config.set(option[0], option[1], config.get(option[0], option[1]))
             else:
-                try:
-                    config[option[0]][option[1]] = ""
-                except KeyError:
-                    config.add_section(option[0])
-                    config[option[0]][option[1]] = ""
+                config.set(option[0], option[1], option[2])
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
 
@@ -76,6 +88,7 @@ def GetPhotosInDirectory(dir):
 
 def run():
     config = GenerateConfig()
+    if config.get('OPTIONS', 'check_for_updates').lower() == "True": CheckForUpdates()
     exclusions = config.get('PATH', 'exclusions').split('+')
     paths = config.get('PATH', 'photos').split('+')
     photos = []
@@ -93,9 +106,10 @@ def run():
         input("Press any key to exit.")
         exit()
     img = cv2.imread(new_photo, 1)
-    scaled_img = resize(img)
+    scaled_img = Resize(img)
     cv2.imwrite('scaled.png', scaled_img)
     copyfile('scaled.png', './EasyAntiCheat/SplashScreen.png')
+    print("Image successfully scaled and replaced.")
     if config.get('OPTIONS', 'pause_on_complete').lower() == 'true':
         input("Pause on Complete enabled in config.ini, press any key to exit")
 
