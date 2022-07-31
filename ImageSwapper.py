@@ -18,9 +18,10 @@ def CheckForUpdates():
         if response.history:
             if not response.url.endswith(current_version):
                 print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
-                input("Press any key to exit..")
-                exit()
-    except:
+                input("Press any key to continue..")
+    except Exception:
+        traceback.print_exc()
+        print('Checking for updates failed...')
         return
 
 def Resize(image, height=450, inter = cv2.INTER_AREA):
