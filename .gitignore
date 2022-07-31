@@ -9,3 +9,4 @@ dist
 *.spec
 *~*
 *-workspace
+pyinstaller-5.3
