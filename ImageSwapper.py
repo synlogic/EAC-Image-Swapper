@@ -9,13 +9,17 @@ import traceback
 import requests
 
 def CheckForUpdates():
-    print("Checking for updates")
-    current_version = "v1.0.3"
+    current_version = "v1.0.4"
+    print(f"EAC Image Swapper version: {current_version}")
+    print("Checking for updates | You can disable this in config.ini")
+    
     try:
         response = requests.get("https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
         if response.history:
             if not response.url.endswith(current_version):
                 print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
+                input("Press any key to exit..")
+                exit()
     except:
         return
 
@@ -88,7 +92,7 @@ def GetPhotosInDirectory(dir):
 
 def run():
     config = GenerateConfig()
-    if config.get('OPTIONS', 'check_for_updates').lower() == "True": CheckForUpdates()
+    if config.get('OPTIONS', 'check_for_updates').lower() == "true": CheckForUpdates()
     exclusions = config.get('PATH', 'exclusions').split('+')
     paths = config.get('PATH', 'photos').split('+')
     photos = []
