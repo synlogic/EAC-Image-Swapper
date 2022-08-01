@@ -2,6 +2,8 @@
 # EAC Image Swapper
 A python script for randomly picking a screenshot or image to use as the EAC splashscreen.
 
+This isn't considered a mod, it doesn't modify the VRChat client in any way.  The EasyAntiCheat/SplashScreen.png it replaces is fully accessible without any external programs, this simply automates it.
+
 ## Download the latest ImageSwapper.zip from https://github.com/synlogic/EAC-Image-Swapper/releases
 
 # How To Use
@@ -9,17 +11,19 @@ A python script for randomly picking a screenshot or image to use as the EAC spl
 2) Open steam, go to library and right click on VRChat.  Go to Manage->Browse Local Files
 3) Unzip ImageSwapper.zip and place files into the local files folder
 4) Open config.ini in a text editor and place the path of your photos directory. EX: photos = C:\Users\user\Pictures\VRChat
-5) In steam again right click VRChat and go to properties.  In the launch options box insert "run.bat %COMMAND%" **before** any launch options
-6) Run VRChat and enjoy seeing your screenshots, skebs, or whatever else on your EAC screen!
+- You can append more directories by using + between them.  Example: C:\Users\user\Pictures\VRChat+C:\Users\user\Pictures\Skebs
+5) Set Exclusions of folders within the phtos directories if needed.  You can append more directories just like photos.
+6) (Optional) Go ahead and run ImageSwapper.exe once manually by double clicking.  This just insures that the first run is a new image.
+7) In steam again right click VRChat and go to properties.  In the launch options box insert "run.bat %COMMAND%" **BEFORE** any launch options
+8) Run VRChat and enjoy seeing your screenshots, skebs, or whatever else on your EAC splash screen!
 
-# Video Tutorial (Outdated working on a new one for v2.0.0)
-[Cen Tutorial.webm](https://user-images.githubusercontent.com/26206994/181855593-a95b34e4-cfa5-4f82-bf74-0b65d98b1fce.webm)
+# Video Tutorial
+[eac tutorial.webm](https://user-images.githubusercontent.com/26206994/182078101-76e2988a-d060-4f3d-abc6-cabfeee51efc.webm)
+
 
 
 
 # Extra info
-You can adjust the timeout in the run.bat, if it's too low it may not update the picture before vrchat launches.
-
 The image it chooses can be an image within a folder in the root folder.  EX: VRCHAT/2022-07/image.png
 
 This was made and tested with VRChat in mind. However, this should work on other games with EAC as well as long as the EasyAntiCheat folder is in the same directory as ImageSwap.exe
