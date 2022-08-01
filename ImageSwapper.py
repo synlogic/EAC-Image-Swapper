@@ -6,6 +6,7 @@ from requests import get as rget
 from configparser import ConfigParser
 from traceback import print_exc
 from PIL import Image
+from packaging import version
 
 def print(value, force=False):
     config = ConfigParser()
@@ -14,13 +15,14 @@ def print(value, force=False):
         stdout.write(f'{value}\n')
 
 def CheckForUpdates():
-    current_version = "v2.1.0"
+    current_version = "2.1.0"
     print(f"EAC Image Swapper version: {current_version}", True)
     print("Checking for updates | You can disable this in config.ini", True)
     
     try:
         response = rget("https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
-        if not response.url.endswith(current_version):
+        latest = response.url.split('/')[-1].replace('v', '')
+        if version.parse(current_version) < version.parse(latest):
             print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest", True)
             input("Press any key to continue..")
     except Exception:
@@ -46,7 +48,7 @@ def Resize(path):
 
 def GenerateConfig():
     sections = ('PATH', 'OPTIONS')
-    options = [['PATH', 'photos', ''], ['PATH', 'exclusions', ''], ['OPTIONS', 'pause_on_complete', 'false'], ['OPTIONS', 'check_for_updates', 'true'], ['OPTIONS', 'output_to_cmd', 'false']]
+    options = [['PATH', 'photos', ''], ['PATH', 'exclusions', ''],['PATH', 'EasyAntiCheat', './EasyAntiCheat'], ['OPTIONS', 'pause_on_complete', 'false'], ['OPTIONS', 'check_for_updates', 'true'], ['OPTIONS', 'output_to_cmd', 'false']]
     config = ConfigParser()
     #Generate new config
     if not path.exists('config.ini'):
@@ -113,7 +115,8 @@ def run():
         exit()
 
     scaled = Resize(new_photo)
-    scaled.save('./EasyAntiCheat/SplashScreen.png')
+    eac_path = config.get('PATH', 'EasyAntiCheat')
+    scaled.save(f'{ eac_path }\\SplashScreen.png')
     if config.get('OPTIONS', 'pause_on_complete').lower() == 'true':
         print("Image successfully scaled and replaced.", True)
         input("Pause on Complete enabled in config.ini, press any key to exit")
