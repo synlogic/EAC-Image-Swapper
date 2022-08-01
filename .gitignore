@@ -11,3 +11,5 @@ dist
 *-workspace
 Test Images
 build_env/
+pyinstaller-5.3
+test.py

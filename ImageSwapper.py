@@ -1,12 +1,11 @@
 from random import choice
 from os import path, listdir
-from shutil import copyfile
 from sys import exit, stdout
 from glob import glob
 from requests import get as rget
 from configparser import ConfigParser
 from traceback import print_exc
-import cv2
+from PIL import Image
 
 def print(value, force=False):
     config = ConfigParser()
@@ -29,29 +28,21 @@ def CheckForUpdates():
         print('Checking for updates failed...', True)
         return
 
-def Resize(image, height=450, inter = cv2.INTER_AREA):
-    # Resizes while maintaining aspect ratio.
-    border_v = 0
-    border_h = 0
-
-    IMG_COL = 450
-    IMG_ROW = 800
-
-    if (IMG_COL/IMG_ROW) >= (image.shape[0]/image.shape[1]):
-        border_v = int((((IMG_COL/IMG_ROW)*image.shape[1])-image.shape[0])/2)
-    else:
-        border_h = int((((IMG_ROW/IMG_COL)*image.shape[0])-image.shape[1])/2)
-
-    image = cv2.copyMakeBorder(image, border_v, border_v, border_h, border_h, cv2.BORDER_CONSTANT, 0)
+def Resize(path):
+    image = Image.open(path)
     
-    dimensions = None
-    (h, w) = image.shape[:2]
+    ratio = min(800 / image.width, 450 / image.height)
 
-    r = height / float(h)
-    dimensions = (int(w * r), height)
+    y = int(450)
+    x = int(image.width  * ratio)
 
-    resized = cv2.resize(image, dimensions, interpolation = inter)
-    return resized
+    image = image.resize((x, y))
+    background = Image.new('RGBA', (800, 450), (0,0,0,0))
+    offset = ((800 - x) // 2, (450 - y) // 2)
+    background.paste(image, offset)
+    new_image = background.convert('RGB')
+
+    return new_image
 
 def GenerateConfig():
     sections = ('PATH', 'OPTIONS')
@@ -120,12 +111,11 @@ def run():
         print('No photos to be found! Empty photos directory maybe?', True)
         input("Press any key to exit.")
         exit()
-    img = cv2.imread(new_photo, 1)
-    scaled_img = Resize(img)
-    cv2.imwrite('scaled.png', scaled_img)
-    copyfile('scaled.png', './EasyAntiCheat/SplashScreen.png')
-    print("Image successfully scaled and replaced.")
+
+    scaled = Resize(new_photo)
+    scaled.save('./EasyAntiCheat/SplashScreen.png')
     if config.get('OPTIONS', 'pause_on_complete').lower() == 'true':
+        print("Image successfully scaled and replaced.", True)
         input("Pause on Complete enabled in config.ini, press any key to exit")
 
 if __name__ == '__main__':
