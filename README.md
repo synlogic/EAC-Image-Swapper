@@ -2,6 +2,8 @@
 # EAC Image Swapper
 A python script for randomly picking a screenshot or image to use as the EAC splashscreen.
 
+This isn't considered a mod, it doesn't modify the VRChat client in any way.  The EasyAntiCheat/SplashScreen.png it replaces is fully accesible without any external programs, this simply automates it.
+
 ## Download the latest ImageSwapper.zip from https://github.com/synlogic/EAC-Image-Swapper/releases
 
 # How To Use
