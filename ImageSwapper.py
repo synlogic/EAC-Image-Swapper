@@ -1,27 +1,32 @@
 from random import choice
 from os import path, listdir
 from shutil import copyfile
-from sys import exit
+from sys import exit, stdout
 from glob import glob
+from requests import get as rget
+from configparser import ConfigParser
+from traceback import print_exc
 import cv2
-import configparser
-import traceback
-from numpy import append
-import requests
+
+def print(value, force=False):
+    config = ConfigParser()
+    config.read('config.ini')
+    if config.get('OPTIONS', 'output_to_cmd').lower() == 'true' or force:
+        stdout.write(f'{value}\n')
 
 def CheckForUpdates():
-    current_version = "v2.0.1"
-    print(f"EAC Image Swapper version: {current_version}")
-    print("Checking for updates | You can disable this in config.ini")
+    current_version = "v2.0.2"
+    print(f"EAC Image Swapper version: {current_version}", True)
+    print("Checking for updates | You can disable this in config.ini", True)
     
     try:
-        response = requests.get("https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
+        response = rget("https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
         if not response.url.endswith(current_version):
-            print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
-            input("Press any key to continue..")
+            print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest", True)
+            input("Press any key to continue..", True)
     except Exception:
-        traceback.print_exc()
-        print('Checking for updates failed...')
+        print_exc()
+        print('Checking for updates failed...', True)
         return
 
 def Resize(image, height=450, inter = cv2.INTER_AREA):
@@ -50,8 +55,8 @@ def Resize(image, height=450, inter = cv2.INTER_AREA):
 
 def GenerateConfig():
     sections = ('PATH', 'OPTIONS')
-    options = [['PATH', 'photos', ''], ['PATH', 'exclusions', ''], ['OPTIONS', 'pause_on_complete', 'false'], ['OPTIONS', 'check_for_updates', 'true']]
-    config = configparser.ConfigParser()
+    options = [['PATH', 'photos', ''], ['PATH', 'exclusions', ''], ['OPTIONS', 'pause_on_complete', 'false'], ['OPTIONS', 'check_for_updates', 'true'], ['OPTIONS', 'output_to_cmd', 'false']]
+    config = ConfigParser()
     #Generate new config
     if not path.exists('config.ini'):
         for section in sections:
@@ -60,8 +65,8 @@ def GenerateConfig():
             config.set(option[0], option[1], option[2])
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
-        print('Add "run.bat %COMMAND%" without quotations to VRChat launch options then add your launch options after')
-        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
+        print('Add "run.bat %COMMAND%" without quotations to VRChat launch options then add your launch options after', True)
+        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.", True)
         exit()
 
     # Generate missing options
@@ -78,7 +83,7 @@ def GenerateConfig():
             config.write(configfile)
 
     if config.get('PATH', 'photos') == "":
-        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
+        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.", True)
         exit()
     return config
 
@@ -112,8 +117,8 @@ def run():
     try:
         new_photo = choice(photos)
     except IndexError:
-        print('No photos to be found! Empty photos directory maybe?')
-        input("Press any key to exit.")
+        print('No photos to be found! Empty photos directory maybe?', True)
+        input("Press any key to exit.", True)
         exit()
     img = cv2.imread(new_photo, 1)
     scaled_img = Resize(img)
@@ -121,12 +126,12 @@ def run():
     copyfile('scaled.png', './EasyAntiCheat/SplashScreen.png')
     print("Image successfully scaled and replaced.")
     if config.get('OPTIONS', 'pause_on_complete').lower() == 'true':
-        input("Pause on Complete enabled in config.ini, press any key to exit")
+        input("Pause on Complete enabled in config.ini, press any key to exit", True)
 
 if __name__ == '__main__':
     try:
         run()
     except Exception as e:
-        traceback.print_exc()
+        print_exc()
         input("Something went wrong, press any key to exit..")
         exit()
