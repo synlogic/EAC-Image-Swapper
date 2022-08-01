@@ -22,8 +22,6 @@ A python script for randomly picking a screenshot or image to use as the EAC spl
 
 
 # Extra info
-You can adjust the timeout in the run.bat, if it's too low it may not update the picture before vrchat launches.
-
 The image it chooses can be an image within a folder in the root folder.  EX: VRCHAT/2022-07/image.png
 
 This was made and tested with VRChat in mind. However, this should work on other games with EAC as well as long as the EasyAntiCheat folder is in the same directory as ImageSwap.exe
