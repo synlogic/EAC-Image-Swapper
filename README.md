@@ -12,7 +12,7 @@ A python script for randomly picking a screenshot or image to use as the EAC spl
 - You can append more directories by using + between them.  Example: C:\Users\user\Pictures\VRChat+C:\Users\user\Pictures\Skebs
 5) Set Exclusions of folders within the phtos directories if needed.  You can append more directories just like photos.
 6) (Optional) Go ahead and run ImageSwapper.exe once manually by double clicking.  This just insures that the first run is a new image.
-7) In steam again right click VRChat and go to properties.  In the launch options box insert "run.bat %COMMAND%" #**BEFORE** any launch options
+7) In steam again right click VRChat and go to properties.  In the launch options box insert "run.bat %COMMAND%" **BEFORE** any launch options
 8) Run VRChat and enjoy seeing your screenshots, skebs, or whatever else on your EAC splash screen!
 
 # Video Tutorial
