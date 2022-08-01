@@ -15,7 +15,7 @@ def print(value, force=False):
         stdout.write(f'{value}\n')
 
 def CheckForUpdates():
-    current_version = "v2.0.2"
+    current_version = "v2.1.0"
     print(f"EAC Image Swapper version: {current_version}", True)
     print("Checking for updates | You can disable this in config.ini", True)
     
@@ -23,7 +23,7 @@ def CheckForUpdates():
         response = rget("https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
         if not response.url.endswith(current_version):
             print("Update Available! Download from https://github.com/synlogic/EAC-Image-Swapper/releases/latest", True)
-            input("Press any key to continue..", True)
+            input("Press any key to continue..")
     except Exception:
         print_exc()
         print('Checking for updates failed...', True)
@@ -66,7 +66,7 @@ def GenerateConfig():
         with open('config.ini', 'w') as configfile:
             config.write(configfile)
         print('Add "run.bat %COMMAND%" without quotations to VRChat launch options then add your launch options after', True)
-        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.", True)
+        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
         exit()
 
     # Generate missing options
@@ -83,7 +83,7 @@ def GenerateConfig():
             config.write(configfile)
 
     if config.get('PATH', 'photos') == "":
-        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.", True)
+        input("Open config.ini and input your VRChat photo path and VRChat EAC path | Press any key to exit.")
         exit()
     return config
 
@@ -118,7 +118,7 @@ def run():
         new_photo = choice(photos)
     except IndexError:
         print('No photos to be found! Empty photos directory maybe?', True)
-        input("Press any key to exit.", True)
+        input("Press any key to exit.")
         exit()
     img = cv2.imread(new_photo, 1)
     scaled_img = Resize(img)
@@ -126,7 +126,7 @@ def run():
     copyfile('scaled.png', './EasyAntiCheat/SplashScreen.png')
     print("Image successfully scaled and replaced.")
     if config.get('OPTIONS', 'pause_on_complete').lower() == 'true':
-        input("Pause on Complete enabled in config.ini, press any key to exit", True)
+        input("Pause on Complete enabled in config.ini, press any key to exit")
 
 if __name__ == '__main__':
     try:
