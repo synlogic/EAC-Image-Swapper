@@ -23,7 +23,7 @@ def CheckForUpdates():
         response = rget("https://github.com/synlogic/EAC-Image-Swapper/releases/latest")
         latest = response.url.split('/')[-1].replace('v', '')
         if version.parse(current_version) < version.parse(latest):
-            print("\nUpdate Available! Download from \nhttps://github.com/synlogic/EAC-Image-Swapper/releases/latest (CTRl+Click)\n", True)
+            print("\nUpdate Available! Download from \nhttps://github.com/synlogic/EAC-Image-Swapper/releases/latest (Copy Paste into Browser)\n", True)
             input("Press any key to continue..")
     except Exception:
         print_exc()
